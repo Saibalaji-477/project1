@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .ss {
+            float: left;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f5f5f5;
+        }
+
+        .movies-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+        }
+
+        .movie-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 15px;
+            text-align: center;
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+        }
+
+        .result-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .auth-container {
+            display: flex;
+            justify-content: space-around;
+            width: 50%;
+            margin-top: 20px;
+        }
+
+        .auth-form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        footer {
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #555;
+            padding: 10px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px;
+            margin: 0 10px;
+        }
+
+        header {
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .rating {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .rating i {
+            color: gold;
+        }
+
+        .view-button {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+    <title>Movie Streaming Plans</title>
+</head>
+<body>
+    <header>
+        <h1>Movie Streaming Service</h1>
+    </header>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#price">Price</a>
+        <a href="#mm">Contact</a>
+        <a href="#cc">Login</a>
+    </nav>
+    
+    <div class="search-bar">
+        <label for="movie-search">Search for a Movie:</label>
+        <input type="text" id="movie-search" placeholder="Enter movie name Correctly">
+    </div>
+
+    
+
+    <div class="movies-container" id="movies-container">
+        <!-- Movie cards will be dynamically added here -->
+    </div>
+
+    <div class="result-container" id="price">
+        <h2>Selected Plan:</h2>
+        <p id="selected-plan">Select a movie and plan</p>
+        <h2>Estimated Monthly Cost:</h2>
+        <p id="monthly-cost">0</p>
+        <button id="toggle-currency">Toggle Currency</button>
+    </div>
+
+    <div class="auth-container" id="cc">
+        <div class="auth-form" id="registration-form">
+            <h2>Registration</h2>
+            <form>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                <br>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <br>
+                <button type="submit">Register</button>
+            </form>
+        </div>
+    
+        <div class="auth-form" id="login-form">
+            <h2>Login</h2>
+            <form>
+                <label for="login-email">Email:</label>
+                <input type="email" id="login-email" name="login-email" required>
+                <br>
+                <label for="login-password">Password:</label>
+                <input type="password" id="login-password" name="login-password" required>
+                <br>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <footer id="mm">
+        <p>Contact us at: example@example.com</p>
+        <p>Address: 123 Movie Street, Cinematown</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const movieSearchInput = document.getElementById('movie-search');
+            const moviesContainer = document.getElementById('movies-container');
+            const selectedPlan = document.getElementById('selected-plan');
+            const monthlyCost = document.getElementById('monthly-cost');
+            const toggleCurrencyButton = document.getElementById('toggle-currency');
+
+            let isDollar = true;
+
+            const moviePlans = {
+                avengers: {
+                    name: 'Avengers',
+                    image: '2037.png',
+                    basic: 9.99,
+                    standard: 14.99,
+                    premium: 19.99,
+                    rating: 4,
+                    link: 'https://www.hotstar.com/in/movies/marvels-the-avengers/1660000015',  // Replace with the actual link
+                },
+                ironman: {
+                    name: 'Ironman',
+                    image: '2765.jpg',
+                    basic: 8.99,
+                    standard: 13.99,
+                    premium: 17.99,
+                    rating: 3.5,
+                    link: 'https://www.hotstar.com/in/movies/iron-man/1660000038',  // Replace with the actual link
+                },
+                spiderman: {
+                    name: 'Spiderman',
+                    image: '2948.jpg',
+                    basic: 10.99,
+                    standard: 15.99,
+                    premium: 20.99,
+                    rating: 4.5,
+                    link: 'https://www.hotstar.com/in/shows/marvels-ultimate-spider-man/1260014888',  // Replace with the actual link
+                },
+                wednesday: {
+                    name: 'Wednesday',
+                    image: '9306.jpg',
+                    basic: 7.99,
+                    standard: 12.99,
+                    premium: 16.99,
+                    rating: 3,
+                    link: 'https://www.imdb.com/title/tt13443470/',  // Replace with the actual link
+                },
+            };
+
+            const renderMovies = (filteredMovies) => {
+                moviesContainer.innerHTML = '';
+
+                for (const movieKey in filteredMovies) {
+                    const movie = filteredMovies[movieKey];
+
+                    const movieCard = document.createElement('div');
+                    movieCard.className = 'movie-card';
+                    movieCard.innerHTML = `
+                        <h3>${movie.name}</h3>
+                        <img src="${movie.image}" alt="${movie.name}" style="max-width: 100%;">
+                        <div class="rating">
+                            Ratings: ${getRatingStars(movie.rating)}
+                        </div>
+                        <div class="toggle-container">
+                            <label for="${movieKey}-subscription-type">Subscription Type:</label>
+                            <select id="${movieKey}-subscription-type">
+                                <option value="basic">Basic</option>
+                                <option value="standard">Standard</option>
+                                <option value="premium">Premium</option>
+                            </select>
+                        </div>
+                        <div class="toggle-container">
+                            <label for="${movieKey}-stream-quality">Stream Quality:</label>
+                            <select id="${movieKey}-stream-quality">
+                                <option value="low">Low</option>
+                                <option value="hd">HD</option>
+                                <option value="ultra-hd">Ultra HD</option>
+                            </select>
+                        </div>
+                        <div class="toggle-container">
+                            <label for="${movieKey}-devices">Number of Devices:</label>
+                            <select id="${movieKey}-devices">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
+                        <a class="view-button" href="${movie.link}" target="_blank">View</a>
+                    `;
+
+                    moviesContainer.appendChild(movieCard);
+
+                    const subscriptionTypeSelect = document.getElementById(`${movieKey}-subscription-type`);
+                    const streamQualitySelect = document.getElementById(`${movieKey}-stream-quality`);
+                    const devicesSelect = document.getElementById(`${movieKey}-devices`);
+
+                    subscriptionTypeSelect.addEventListener('change', updatePricing);
+                    streamQualitySelect.addEventListener('change', updatePricing);
+                    devicesSelect.addEventListener('change', updatePricing);
+                }
+            };
+
+            const updatePricing = () => {
+                const selectedMovie = movieSearchInput.value.toLowerCase();
+                const selectedMovieData = moviePlans[selectedMovie];
+
+                if (selectedMovieData) {
+                    const subscriptionTypeSelect = document.getElementById(`${selectedMovie}-subscription-type`);
+                    const streamQualitySelect = document.getElementById(`${selectedMovie}-stream-quality`);
+                    const devicesSelect = document.getElementById(`${selectedMovie}-devices`);
+
+                    const subscriptionType = subscriptionTypeSelect.value;
+                    const streamQuality = streamQualitySelect.value;
+                    const devices = devicesSelect.value;
+
+                    let plan = '';
+                    let cost = 0;
+
+                    if (subscriptionType === 'basic') {
+                        plan = 'Basic Plan';
+                        cost = selectedMovieData.basic;
+                    } else if (subscriptionType === 'standard') {
+                        plan = 'Standard Plan';
+                        cost = selectedMovieData.standard;
+                    } else {
+                        plan = 'Premium Plan';
+                        cost = selectedMovieData.premium;
+                    }
+
+                    // Adjust cost based on stream quality
+                    if (streamQuality === 'hd') {
+                        cost += 5.00;
+                    } else if (streamQuality === 'ultra-hd') {
+                        cost += 10.00;
+                    }
+
+                    // Adjust cost based on the number of devices
+                    cost *= parseInt(devices);
+
+                    selectedPlan.textContent = `Selected Plan: ${plan}`;
+                    monthlyCost.textContent = isDollar ? `$${cost.toFixed(2)}` : `₹${(cost * 75.5).toFixed(2)}`;
+                } else {
+                    selectedPlan.textContent = 'Select a movie and plan';
+                    monthlyCost.textContent = '$9.99';
+                }
+            };
+
+            const toggleCurrency = () => {
+                isDollar = !isDollar;
+                updatePricing();
+            };
+
+            const getRatingStars = (rating) => {
+                const stars = '<i class="fas fa-star"></i>'.repeat(Math.floor(rating));
+                const halfStar = (rating % 1 !== 0) ? '<i class="fas fa-star-half-alt"></i>' : '';
+                return stars + halfStar;
+            };
+
+            toggleCurrencyButton.addEventListener('click', toggleCurrency);
+
+            movieSearchInput.addEventListener('input', () => {
+                const searchTerm = movieSearchInput.value.toLowerCase();
+                const filteredMovies = Object.keys(moviePlans)
+                    .filter(movieKey => movieKey.toLowerCase().includes(searchTerm))
+                    .reduce((filtered, key) => {
+                        filtered[key] = moviePlans[key];
+                        return filtered;
+                    }, {});
+
+                renderMovies(filteredMovies);
+                updatePricing();  // Update pricing when searching
+            });
+
+            // Initial render with all movies
+            renderMovies(moviePlans);
+        });
+    </script>
+</body>
+</html>
